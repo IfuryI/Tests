@@ -58,9 +58,14 @@ jobs:
 
         run: psql -d postgresql://mdb@localhost/mdb -f install.sql
 
-      - name: IntegrationAndE2ETests
+      - name: IntegrationTests
         run: |
-          cd internal/ratings/usecase
+          cd internal/ratings/integration
+          go test
+
+      - name: E2ETests
+        run: |
+          cd internal/ratings/e2e
           go test
 
       - name: AllTest
