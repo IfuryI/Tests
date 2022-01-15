@@ -45,7 +45,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: MPostgres script
+      - name: Run Postgres script
         env:
           # These are the expected envs in my code
           DB_HOST: localhost
@@ -58,8 +58,12 @@ jobs:
 
         run: psql -d postgresql://mdb@localhost/mdb -f install.sql
 
+      - name: IntegrationAndE2ETests
+        run: |
+          cd internal/ratings/usecase
+          go test
 
-      - name: testasd
+      - name: AllTest
         run: |
           go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
 
