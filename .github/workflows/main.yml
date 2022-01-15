@@ -1,0 +1,60 @@
+name: Simple Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: mdb
+          POSTGRES_PASSWORD: mdb
+          POSTGRES_DB: mdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16.x
+          
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create DataBase
+        env:
+          DB_HOST: localhost
+          DB_USER: mdb
+          DB_PASSWORD: mdb
+          DB_NAME: mdb
+          DB_PORT: 5432
+          DB_DIALECT: postgres
+          PGPASSWORD: mdb
+        run: psql -d postgresql://mdb@localhost/mdb -f install.sql
+
+      - name: IntegrationTests
+        run: |
+          cd internal/ratings/integration
+          go test
+
+      - name: E2ETests
+        run: |
+          cd internal/ratings/e2e
+          go test
+
+      - name: UnitTest
+        run: |
+          go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
+          
