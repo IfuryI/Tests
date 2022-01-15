@@ -1,0 +1,7 @@
+.idea
+go.sum
+venv
+.vscode/
+*.out
+internal/*.out
+.env
