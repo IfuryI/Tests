@@ -46,6 +46,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Main Test
+
         run: go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
 
 
