@@ -19,7 +19,7 @@ import (
 )
 
 func TestE2ERating(t *testing.T) {
-	os.Setenv("DB_CONNECT", "postgres://mdb:mdb@localhost:5432/mdb")
+	os.Setenv("DB_CONNECT", "postgres://mdb:mdb@127.0.0.1:5432/mdb")
 
 	connStr, connected := os.LookupEnv("DB_CONNECT")
 	if !connected {
@@ -126,7 +126,7 @@ func TestE2ERating(t *testing.T) {
 }
 
 func TestRating(t *testing.T) {
-	os.Setenv("DB_CONNECT", "postgres://mdb:mdb@localhost:5432/mdb")
+	os.Setenv("DB_CONNECT", "postgres://mdb:mdb@127.0.0.1:5432/mdb")
 
 	connStr, connected := os.LookupEnv("DB_CONNECT")
 	if !connected {
