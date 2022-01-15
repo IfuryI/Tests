@@ -45,7 +45,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Main Test
+      - name: MPostgres script
         env:
           # These are the expected envs in my code
           DB_HOST: localhost
@@ -54,11 +54,13 @@ jobs:
           DB_NAME: mdb
           DB_PORT: 5432
           DB_DIALECT: postgres
+          PGPASSWORD: mdb
 
+        run: psql -d postgresql://mdb@localhost/mdb -f install.sql
+
+
+      - name: testasd
         run: |
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends postgresql-client
-          sudo PGPASSWORD=mdb psql -U mdb -f install.sql
           go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
 
 
