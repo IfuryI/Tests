@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"time"
 
-	//"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-park-mail-ru/2021_1_kekEnd/internal/actors"
 	actorsHttp "github.com/go-park-mail-ru/2021_1_kekEnd/internal/actors/delivery/http"
@@ -146,10 +146,10 @@ func prometheusHandler() gin.HandlerFunc {
 // Run запуск приложения
 func (app *App) Run(port string) error {
 	router := gin.Default()
-	//config := cors.DefaultConfig()
-	//config.AllowOrigins = []string{"http://localhost:4000", "https://cinemedia.ru"}
-	//config.AllowCredentials = true
-	//router.Use(cors.New(config))
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:4000", "https://cinemedia.ru"}
+	config.AllowCredentials = true
+	router.Use(cors.New(config))
 	router.Use(middleware.AccessLogMiddleware(app.logger))
 
 	router.Static("/avatars", constants.AvatarsFileDir)
