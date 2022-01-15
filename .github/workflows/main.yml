@@ -55,9 +55,7 @@ jobs:
           DB_PORT: 5432
           DB_DIALECT: postgres
 
-        run: |
-        sudo psql -U mdb
-        go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
+        run: go test -coverprofile=coverage1.out -coverpkg=./... -cover ./... && cat coverage1.out | grep -v _mock | grep -v pb.go > cover.out &&go tool cover -func=cover.out
 
 
 #  build:
