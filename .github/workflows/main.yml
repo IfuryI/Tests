@@ -23,7 +23,7 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_USER_USER: mdb
+          POSTGRES_USER: mdb
           POSTGRES_PASSWORD: mdb
           POSTGRES_DB: mdb
         ports:
